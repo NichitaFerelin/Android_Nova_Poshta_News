@@ -8,11 +8,13 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        applicationId  = "com.ferelin.novaposhtanews"
+        applicationId = "com.ferelin.novaposhtanews"
         minSdk = 21
         targetSdk = 33
         versionCode = 1
-        versionName = "0.1"
+        versionName = "0.1.0"
+
+        project.version = versionName!!
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -28,4 +30,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.android.material)
     implementation(libs.kotlin.stdlib)
+}
+
+tasks.create("CI_VERSION_NAME") {
+    print(project.version)
 }
