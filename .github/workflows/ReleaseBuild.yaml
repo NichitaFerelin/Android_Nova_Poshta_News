@@ -60,10 +60,10 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Make artifact
-          uses: actions/upload-artifact@v2
-          with:
-            name: app-release-signed
-            path: ${{ steps.sign_apk.outputs.signedReleaseFile }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release-signed
+          path: ${{ steps.sign_apk.outputs.signedReleaseFile }}
 
       - name: Upload APK
         uses: actions/upload-release-asset@v1
