@@ -1,0 +1,4 @@
+<resources>
+
+    <style name="Theme.NovaPoshtaNews" parent="Theme.MaterialComponents.NoActionBar" />
+</resources>
