@@ -1,6 +1,6 @@
 plugins {
     id("com.android.library")
-    alias(libs.plugins.kotlin)
+    id(libs.plugins.kotlin.get().pluginId)
     alias(libs.plugins.benchmark)
 }
 
