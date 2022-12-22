@@ -16,12 +16,23 @@ android {
 
         project.version = versionName!!
     }
+    buildTypes {
+        debug {
+            enableUnitTestCoverage = true
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            unitTests.isReturnDefaultValues = true
+        }
     }
 }
 
@@ -30,8 +41,12 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.android.material)
     implementation(libs.kotlin.stdlib)
+    implementation(libs.jacoco)
+
+    testImplementation(libs.junit)
 }
 
 tasks.create("CI_VERSION_NAME") {
     print(project.version)
 }
+

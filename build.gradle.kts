@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.jacoco) apply true
 }
 
 buildscript {
@@ -51,4 +52,24 @@ allprojects {
             include("**/kotlin/**")
         }
     }
+
+    tasks.withType<JacocoReport>().configureEach {
+        reports {
+            xml.required.set(true)
+            csv.required.set(true)
+            html.required.set(true)
+        }
+    }
+}
+
+junitJacoco {
+    excludes = mutableListOf(
+        "**/*Factory*.*",
+        "**/*Generated*.*",
+        "**/*_di_*.*"
+    )
+}
+
+jacoco {
+    toolVersion = rootProject.libs.plugins.jacoco.get().version.toString()
 }
