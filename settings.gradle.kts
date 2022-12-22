@@ -14,3 +14,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Nova Poshta News"
 include(":app")
+include(":benchmark")
