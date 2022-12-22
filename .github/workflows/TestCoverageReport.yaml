@@ -22,13 +22,11 @@ jobs:
           java-version: 11
 
       - name: Run Coverage
-        run: |
-          chmod +x gradlew
-          ./gradlew testCoverage
+        run: ./gradlew jacocoAndroidTestReport
 
       - name: Add coverage to PR
         id: jacoco
         uses: madrapps/jacoco-report@v1.3
         with:
-          paths: ${{ github.workspace }}/build/reports/jacoco/testCoverage/testCoverage.xml
+          paths: ${{ github.workspace }}/build/reports/tests/testDebugUnitTest/index.html
           token: ${{ secrets.GITHUB_TOKEN }}
