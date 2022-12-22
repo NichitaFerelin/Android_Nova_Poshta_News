@@ -1,0 +1,88 @@
+name: Release Build
+on:
+  push:
+    branches:
+      - master
+
+    tags:
+      - 'v*'
+jobs:
+  build:
+    name: Builg & Sign release APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Tag
+        id: app_version
+        run: echo ::set-output name=VERSION_NAME::$(${{ github.workspace }}/gradlew -q CI_VERSION_NAME)
+
+      - name: Get version
+        run: |
+          echo "version_name=${{ steps.app_version.outputs.VERSION_NAME }}" >> $GITHUB_ENV
+
+      - name: Build APK
+        id: build
+        run: bash ./gradlew assembleRelease
+
+      - name: Sign APK
+        id: sign_apk
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.SIGNIN_KEY }}
+          alias: ${{ secrets.SIGNIN_ALIAS }}
+          keyStorePassword: ${{ secrets.SIGNIN_PASSWORD }}
+          keyPassword: ${{ secrets.SIGNIN_PASSWORD }}
+
+      - name: Build AAB
+        run: bash ./gradlew bundleRelease
+
+      - name: Sign AAB
+        id: sign_aab
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/bundle/release
+          signingKeyBase64: ${{ secrets.SIGNIN_KEY }}
+          alias: ${{ secrets.SIGNIN_ALIAS }}
+          keyStorePassword: ${{ secrets.SIGNIN_PASSWORD }}
+          keyPassword: ${{ secrets.SIGNIN_PASSWORD }}
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ env.version_name }}
+          release_name: Release ${{ env.version_name }}
+          body: ${{ steps.changelog.outputs.changelog }} &#x20;
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Make artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release-signed
+          path: ${{ steps.sign_apk.outputs.signedReleaseFile }}
+
+      - name: Upload APK
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.sign_apk.outputs.signedReleaseFile }}
+          asset_name: NovaPoshtaNews_signed_${{ env.version_name }}.apk
+          asset_content_type: application/zip
+
+      - name: Upload AAB
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.sign_aab.outputs.signedReleaseFile }}
+          asset_name: NovaPoshtaNews_signed_${{ env.version_name }}.aab
+          asset_content_type: application/zip
