@@ -1,0 +1,47 @@
+name: Firebase Distribution
+on:
+  push:
+    branches:
+      - develop
+
+    tags:
+      - 'v*'
+jobs:
+  build:
+    name: Distribute signed release APK to Firebase
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Tag
+        id: app_version
+        run: echo ::set-output name=VERSION_NAME::$(${{ github.workspace }}/gradlew -q CI_Version_Name)
+
+      - name: Get version
+        run: |
+          echo "version_name=${{ steps.app_version.outputs.VERSION_NAME }}" >> $GITHUB_ENV
+
+      - name: Build Release APK
+        id: build
+        run: bash ./gradlew assembleRelease
+
+      - name: Sign Release APK
+        id: sign_apk
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.SIGNIN_KEY }}
+          alias: ${{ secrets.SIGNIN_ALIAS }}
+          keyStorePassword: ${{ secrets.SIGNIN_PASSWORD }}
+          keyPassword: ${{ secrets.SIGNIN_PASSWORD }}
+
+      - name: Upload artifact to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_FILE_CONTENT }}
+          groups: Main_Testers
+          file: ${{ steps.sign_apk.outputs.signedReleaseFile }}
