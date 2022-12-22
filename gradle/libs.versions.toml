@@ -4,8 +4,13 @@ androidxAppCompat = "1.5.1"
 androidxCore = "1.9.0"
 androidMaterial = "1.7.0"
 kotlin = "1.7.20"
+detekt = "1.22.0"
+ktlint = "0.43.2"
+ktlintPlugin = "11.0.0"
 
 [libraries]
+android-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+kotlin-gradle = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 android-material = { group = "com.google.android.material", name = "material", version.ref = "androidMaterial" }
@@ -14,3 +19,5 @@ kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", v
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintPlugin" }
