@@ -37,4 +37,4 @@ jobs:
         uses: madrapps/jacoco-report@v1.3
         with:
           paths: ${{ github.workspace }}/app/build/reports/tests/testDebugUnitTest/index.html
-          token: ${{ secrets.github_token }}
+          token: ${{ secrets.JACOCO_TOKEN }}
