@@ -1,10 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin)
-    id("jacoco")
 }
-
-apply(from = "../jacoco.gradle.kts")
 
 android {
     namespace = "com.ferelin.novaposhtanews"
@@ -45,8 +42,4 @@ dependencies {
     implementation(libs.jacoco)
 
     testImplementation(libs.junit)
-}
-
-jacoco {
-    toolVersion = libs.jacoco.get().versionConstraint.toString()
 }

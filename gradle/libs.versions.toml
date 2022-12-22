@@ -5,6 +5,7 @@ androidxCore = "1.9.0"
 androidMaterial = "1.7.0"
 kotlin = "1.7.20"
 jacoco = "0.8.8"
+jacocoPlugin = "0.16.0"
 junit = "4.4"
 
 [libraries]
@@ -18,4 +19,4 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-jacoco = { id = "jacoco", version.ref = "jacoco" }
+jacoco = { id = "com.vanniktech.android.junit.jacoco", version.ref = "jacocoPlugin" }
