@@ -32,3 +32,5 @@ jobs:
         with:
           paths: ${{ github.workspace }}/app/build/reports/tests/testDebugUnitTest/index.html
           token: ${{ github.token }}
+          min-coverage-overall: 40
+          min-coverage-changed-files: 60
