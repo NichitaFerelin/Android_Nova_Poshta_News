@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin)
+    id(libs.plugins.android.application.get().pluginId)
+    id(libs.plugins.kotlin.get().pluginId)
 }
 
 android {
@@ -8,11 +8,18 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        applicationId  = "com.ferelin.novaposhtanews"
+        applicationId = "com.ferelin.novaposhtanews"
         minSdk = 21
         targetSdk = 33
         versionCode = 1
-        versionName = "0.1"
+        versionName = "0.1.0"
+
+        project.version = versionName!!
+    }
+    buildTypes {
+        debug {
+            enableUnitTestCoverage = true
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -21,6 +28,12 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            unitTests.isReturnDefaultValues = true
+        }
+    }
 }
 
 dependencies {
@@ -28,4 +41,12 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.android.material)
     implementation(libs.kotlin.stdlib)
+    implementation(libs.jacoco)
+
+    testImplementation(libs.junit)
 }
+
+tasks.create("CI_VERSION_NAME") {
+    print(project.version)
+}
+
