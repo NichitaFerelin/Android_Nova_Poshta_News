@@ -2,15 +2,20 @@
 androidGradlePlugin = "7.3.1"
 androidxAppCompat = "1.5.1"
 androidxCore = "1.9.0"
+androidxBenchmark = "1.1.1"
+androidxJunit = "1.1.4"
 androidMaterial = "1.7.0"
 kotlin = "1.7.20"
 
 [libraries]
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
+androidx-benchmark = { group = "androidx.benchmark", name = "benchmark-junit4", version.ref = "androidxBenchmark" }
+androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidxJunit" }
 android-material = { group = "com.google.android.material", name = "material", version.ref = "androidMaterial" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+benchmark = { id = "androidx.benchmark", version.ref = "androidxBenchmark" }
