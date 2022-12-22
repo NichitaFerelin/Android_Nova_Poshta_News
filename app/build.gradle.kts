@@ -1,6 +1,6 @@
 plugins {
-    id(libs.plugins.android.application.get().pluginId)
-    id(libs.plugins.kotlin.get().pluginId)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin)
 }
 
 android {
@@ -12,7 +12,9 @@ android {
         minSdk = 21
         targetSdk = 33
         versionCode = 1
-        versionName = "0.1"
+        versionName = "0.1.0"
+
+        project.version = versionName!!
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -28,4 +30,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.android.material)
     implementation(libs.kotlin.stdlib)
+}
+
+tasks.create("CI_VERSION_NAME") {
+    print(project.version)
 }
