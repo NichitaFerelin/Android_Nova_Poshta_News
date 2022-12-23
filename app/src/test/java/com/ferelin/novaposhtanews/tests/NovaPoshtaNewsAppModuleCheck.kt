@@ -1,15 +1,20 @@
 package com.ferelin.novaposhtanews.tests
 
 import android.content.Context
+import com.ferelin.novaposhtanews.NovaPoshtaNewsDatabase
 import com.ferelin.novaposhtanews.novaPoshtaNewsAppModule
+import com.squareup.sqldelight.android.AndroidSqliteDriver
 import io.ktor.client.*
 import io.ktor.client.engine.*
+import io.mockk.mockk
 import org.junit.Test
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.annotation.KoinExperimentalAPI
-import org.koin.test.check.checkKoinModules
+import org.koin.core.context.startKoin
+import org.koin.test.check.checkModules
 import org.koin.test.verify.verify
 
-class NovaPoshtaNewsAppModuleCheck {
+internal class NovaPoshtaNewsAppModuleCheck {
 
     @OptIn(KoinExperimentalAPI::class)
     @Test
@@ -20,12 +25,17 @@ class NovaPoshtaNewsAppModuleCheck {
                 HttpClient::class,
                 HttpClientEngine::class,
                 HttpClientConfig::class,
+                NovaPoshtaNewsDatabase::class,
+                AndroidSqliteDriver::class,
             ),
         )
     }
 
     @Test
     fun dynamicCheckKoinRootModule() {
-        checkKoinModules(listOf(novaPoshtaNewsAppModule))
+        startKoin {
+            androidContext(mockk())
+            modules(listOf(novaPoshtaNewsAppModule))
+        }.checkModules()
     }
 }
