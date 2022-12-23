@@ -3,6 +3,7 @@ plugins {
     id(libs.plugins.kotlin.get().pluginId)
     alias(libs.plugins.ksp)
     id(libs.plugins.sqldelight.get().pluginId)
+    alias(libs.plugins.protobuf)
 }
 
 android {
@@ -54,6 +55,7 @@ dependencies {
 
     implementation(libs.bundles.ktor)
     implementation(libs.bundles.sqldelight)
+    implementation(libs.bundles.datastore)
 
     testImplementation(libs.junit)
     testImplementation(libs.bundles.koin.test)
@@ -67,5 +69,25 @@ tasks.create("CI_VERSION_NAME") {
 sqldelight {
     database("NovaPoshtaNewsDatabase") {
         packageName = "com.ferelin.novaposhtanews"
+    }
+}
+
+protobuf {
+
+    protoc {
+        artifact = libs.protoc.artifact.get().toString()
+    }
+
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                val java by registering {
+                    option("lite")
+                }
+                val kotlin by registering {
+                    option("lite")
+                }
+            }
+        }
     }
 }

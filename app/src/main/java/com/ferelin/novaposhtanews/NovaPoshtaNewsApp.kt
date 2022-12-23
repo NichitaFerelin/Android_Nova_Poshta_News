@@ -2,7 +2,9 @@ package com.ferelin.novaposhtanews
 
 import android.app.Application
 import com.ferelin.novaposhtanews.data.database.di.databaseModule
+import com.ferelin.novaposhtanews.data.datastore.di.datastoreModule
 import com.ferelin.novaposhtanews.data.remote.di.remoteModule
+import com.ferelin.novaposhtanews.utils.dispatchers.di.dispatchersModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -22,5 +24,5 @@ class NovaPoshtaNewsApp : Application() {
 }
 
 val novaPoshtaNewsAppModule = module {
-    includes(remoteModule, databaseModule)
+    includes(dispatchersModule, remoteModule, databaseModule, datastoreModule)
 }
