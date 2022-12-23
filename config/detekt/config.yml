@@ -274,5 +274,5 @@ style:
     active: true
     ignoreAnnotated: ['Parameter']
   WildcardImport:
-    active: true
+    active: false
     excludeImports: []
