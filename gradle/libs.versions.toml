@@ -12,6 +12,12 @@ junit = "4.4"
 detekt = "1.22.0"
 ktlint = "0.43.2"
 ktlintPlugin = "11.0.0"
+koin = "3.3.0"
+koinAndroid = "3.3.1"
+koinCompose = "3.4.0"
+koinKtor = "3.2.2"
+koinKsp = "1.1.0"
+ksp = "1.7.21-1.0.8"
 
 [libraries]
 android-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -24,6 +30,15 @@ android-material = { group = "com.google.android.material", name = "material", v
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
 jacoco = { group = "org.jacoco", name = "org.jacoco.core", version.ref = "jacoco" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+koin-ktor = { group = "io.insert-koin", name = "koin-ktor", version.ref = "koinKtor" }
+koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
+koin-test-junit4 = { group = "io.insert-koin", name = "koin-test-junit4", version.ref = "koin" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koinAndroid" }
+koin-androidx-workmanager = { group = "io.insert-koin", name = "koin-androidx-workmanager", version.ref = "koinAndroid" }
+koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koinCompose" }
+koin-annotations = { group = "io.insert-koin", name = "koin-annotations", version.ref = "koinKsp" }
+koin-ksp-compiler = { group = "io.insert-koin", name = "koin-ksp-compiler", version.ref = "koinKsp" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -32,3 +47,9 @@ benchmark = { id = "androidx.benchmark", version.ref = "androidxBenchmark" }
 jacoco = { id = "com.vanniktech.android.junit.jacoco", version.ref = "jacocoPlugin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintPlugin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+[bundles]
+koin = ["koin-core", "koin-ktor", "koin-annotations"]
+koin-android = ["koin-android", "koin-androidx-workmanager", "koin-androidx-compose"]
+koin-test = ["koin-test", "koin-test-junit4"]
