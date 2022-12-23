@@ -1,10 +1,9 @@
 package com.ferelin.novaposhtanews.tests
 
 import android.content.Context
-import com.ferelin.novaposhtanews.A
-import com.ferelin.novaposhtanews.B
-import com.ferelin.novaposhtanews.MeaningOfLifeKoin
 import com.ferelin.novaposhtanews.novaPoshtaNewsAppModule
+import io.ktor.client.*
+import io.ktor.client.engine.*
 import org.junit.Test
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.test.check.checkKoinModules
@@ -18,9 +17,9 @@ class NovaPoshtaNewsAppModuleCheck {
         novaPoshtaNewsAppModule.verify(
             extraTypes = listOf(
                 Context::class,
-                MeaningOfLifeKoin::class,
-                A::class,
-                B::class,
+                HttpClient::class,
+                HttpClientEngine::class,
+                HttpClientConfig::class,
             ),
         )
     }

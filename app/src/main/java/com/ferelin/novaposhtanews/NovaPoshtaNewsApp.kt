@@ -1,7 +1,7 @@
 package com.ferelin.novaposhtanews
 
 import android.app.Application
-import org.koin.android.ext.android.inject
+import com.ferelin.novaposhtanews.data.remote.di.remoteModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -17,11 +17,9 @@ class NovaPoshtaNewsApp : Application() {
             androidContext(this@NovaPoshtaNewsApp)
             modules(novaPoshtaNewsAppModule)
         }
-        val meaningOfLife: MeaningOfLifeKoin by inject()
-        meaningOfLife.meaningOfLife()
     }
 }
 
 val novaPoshtaNewsAppModule = module {
-    includes(meaningOfLifeModule)
+    includes(remoteModule)
 }

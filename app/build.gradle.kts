@@ -41,11 +41,17 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.android.material)
+
     implementation(libs.kotlin.stdlib)
+    implementation(libs.bundles.kotlin.coroutines)
+
     implementation(libs.jacoco)
+
     implementation(libs.bundles.koin)
     implementation(libs.bundles.koin.android)
     ksp(libs.koin.ksp.compiler)
+
+    implementation(libs.bundles.ktor)
 
     testImplementation(libs.junit)
     testImplementation(libs.bundles.koin.test)

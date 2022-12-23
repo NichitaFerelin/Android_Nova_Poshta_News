@@ -6,6 +6,7 @@ androidxBenchmark = "1.1.1"
 androidxJunit = "1.1.4"
 androidMaterial = "1.7.0"
 kotlin = "1.7.20"
+kotlinCoroutines = "1.6.4"
 jacoco = "0.8.8"
 jacocoPlugin = "0.16.0"
 junit = "4.4"
@@ -18,6 +19,7 @@ koinCompose = "3.4.0"
 koinKtor = "3.2.2"
 koinKsp = "1.1.0"
 ksp = "1.7.21-1.0.8"
+ktor = "2.2.1"
 
 [libraries]
 android-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -28,6 +30,8 @@ androidx-benchmark = { group = "androidx.benchmark", name = "benchmark-junit4", 
 androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidxJunit" }
 android-material = { group = "com.google.android.material", name = "material", version.ref = "androidMaterial" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
+kotlin-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
+kotlin-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinCoroutines" }
 jacoco = { group = "org.jacoco", name = "org.jacoco.core", version.ref = "jacoco" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
@@ -39,6 +43,11 @@ koin-androidx-workmanager = { group = "io.insert-koin", name = "koin-androidx-wo
 koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koinCompose" }
 koin-annotations = { group = "io.insert-koin", name = "koin-annotations", version.ref = "koinKsp" }
 koin-ksp-compiler = { group = "io.insert-koin", name = "koin-ksp-compiler", version.ref = "koinKsp" }
+ktor-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
+ktor-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -50,6 +59,8 @@ ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintPlugin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [bundles]
+kotlin-coroutines = ["kotlin-coroutines", "kotlin-coroutines-android"]
 koin = ["koin-core", "koin-ktor", "koin-annotations"]
 koin-android = ["koin-android", "koin-androidx-workmanager", "koin-androidx-compose"]
 koin-test = ["koin-test", "koin-test-junit4"]
+ktor = ["ktor-core", "ktor-okhttp", "ktor-content-negotiation", "ktor-serialization", "ktor-logging"]
