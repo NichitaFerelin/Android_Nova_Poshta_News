@@ -14,6 +14,7 @@ buildscript {
     dependencies {
         classpath(libs.android.gradle)
         classpath(libs.kotlin.gradle)
+        classpath(libs.sqldelight.gradle)
     }
 }
 

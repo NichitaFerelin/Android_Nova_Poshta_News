@@ -2,6 +2,7 @@ plugins {
     id(libs.plugins.android.application.get().pluginId)
     id(libs.plugins.kotlin.get().pluginId)
     alias(libs.plugins.ksp)
+    id(libs.plugins.sqldelight.get().pluginId)
 }
 
 android {
@@ -52,11 +53,19 @@ dependencies {
     ksp(libs.koin.ksp.compiler)
 
     implementation(libs.bundles.ktor)
+    implementation(libs.bundles.sqldelight)
 
     testImplementation(libs.junit)
     testImplementation(libs.bundles.koin.test)
+    testImplementation(libs.mockk)
 }
 
 tasks.create("CI_VERSION_NAME") {
     print(project.version)
+}
+
+sqldelight {
+    database("NovaPoshtaNewsDatabase") {
+        packageName = "com.ferelin.novaposhtanews"
+    }
 }
