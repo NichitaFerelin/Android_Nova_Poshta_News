@@ -22,6 +22,9 @@ ksp = "1.7.21-1.0.8"
 ktor = "2.2.1"
 sqldelight = "1.5.4"
 mockk = "1.13.3"
+datastore = "1.0.0"
+protobuf = "3.21.12"
+protobufPlugin = "0.9.1"
 
 [libraries]
 android-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -54,6 +57,9 @@ sqldelight-gradle = { group = "com.squareup.sqldelight", name = "gradle-plugin",
 sqldelight-android-driver = { group = "com.squareup.sqldelight", name = "android-driver", version.ref = "sqldelight" }
 sqldelight-coroutines = { group = "com.squareup.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+datastore = { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
+protoc-artifact = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
+protobuf-kotlin = { group = "com.google.protobuf", name = "protobuf-kotlin", version.ref = "protobuf" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -64,6 +70,7 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintPlugin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 sqldelight = { id = "com.squareup.sqldelight", version.ref = "sqldelight" }
+protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 
 [bundles]
 kotlin-coroutines = ["kotlin-coroutines", "kotlin-coroutines-android"]
@@ -72,3 +79,4 @@ koin-android = ["koin-android", "koin-androidx-workmanager", "koin-androidx-comp
 koin-test = ["koin-test", "koin-test-junit4"]
 ktor = ["ktor-core", "ktor-okhttp", "ktor-content-negotiation", "ktor-serialization", "ktor-logging"]
 sqldelight = ["sqldelight-android-driver", "sqldelight-coroutines"]
+datastore = ["datastore", "protobuf-kotlin"]
