@@ -1,6 +1,7 @@
 plugins {
     id(libs.plugins.android.application.get().pluginId)
     id(libs.plugins.kotlin.get().pluginId)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -42,11 +43,14 @@ dependencies {
     implementation(libs.android.material)
     implementation(libs.kotlin.stdlib)
     implementation(libs.jacoco)
+    implementation(libs.bundles.koin)
+    implementation(libs.bundles.koin.android)
+    ksp(libs.koin.ksp.compiler)
 
     testImplementation(libs.junit)
+    testImplementation(libs.bundles.koin.test)
 }
 
 tasks.create("CI_VERSION_NAME") {
     print(project.version)
 }
-

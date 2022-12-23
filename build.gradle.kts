@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.ktlint)
     alias(libs.plugins.jacoco) apply true
     alias(libs.plugins.benchmark) apply false
+    alias(libs.plugins.ksp)
 }
 
 buildscript {
