@@ -73,7 +73,7 @@ internal class NewsMdMockApiTest : KoinTest {
         val api = NewsMdApiImpl(
             httpClient = HttpClient(
                 MockEngine {
-                    throw Exception()
+                    throw Exception("Random exception")
                 },
             ),
             ioDispatcher = UnconfinedTestDispatcher(),

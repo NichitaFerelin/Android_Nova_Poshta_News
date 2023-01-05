@@ -74,7 +74,7 @@ internal class NewsUaContentMockApiTest : KoinBaseTest() {
 
     @Test
     fun `fetch news item content should not throw exception when jsoup throws error`() = runTest {
-        every { Jsoup.connect(BuildConfig.BASE_UA_API_URL) } throws Exception()
+        every { Jsoup.connect(BuildConfig.BASE_UA_API_URL) } throws Exception("Random exception")
         val result = newsUaContentApi.fetchNewsItemContent("")
         assertTrue { result.isFailure }
     }

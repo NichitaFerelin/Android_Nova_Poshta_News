@@ -95,7 +95,7 @@ internal class NewsUaPreviewMockApiTest : KoinBaseTest() {
 
     @Test
     fun `fetch first should not throw exception when jsoup throws error`() = runTest {
-        every { Jsoup.connect(any()) } throws Exception()
+        every { Jsoup.connect(any()) } throws Exception("Random exception")
         val result = newsUaPreviewApi.fetchFirst()
         assertTrue { result.isFailure }
     }
@@ -141,7 +141,7 @@ internal class NewsUaPreviewMockApiTest : KoinBaseTest() {
 
     @Test
     fun `fetch news should not throw exception when jsoup throws error`() = runTest {
-        every { Jsoup.connect(any()) } throws Exception()
+        every { Jsoup.connect(any()) } throws Exception("Random exception")
         val result = newsUaPreviewApi.fetchNews(1)
         assertTrue { result.isFailure }
     }
