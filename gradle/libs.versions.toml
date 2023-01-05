@@ -25,6 +25,15 @@ mockk = "1.13.3"
 datastore = "1.0.0"
 protobuf = "3.21.12"
 protobufPlugin = "0.9.1"
+jsoup = "1.15.3"
+composeBom = "2022.12.00"
+composeKotlinCompiler = "1.3.2"
+composeActivity = "1.5.1"
+composeViewModel = "2.5.1"
+composeRuntimeLifecycle = "2.6.0-alpha03"
+composeContraintLayout = "1.0.1"
+composeMaterial = "1.3.1"
+glide = "2.1.0"
 
 [libraries]
 android-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -34,9 +43,19 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-benchmark = { group = "androidx.benchmark", name = "benchmark-junit4", version.ref = "androidxBenchmark" }
 androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidxJunit" }
 android-material = { group = "com.google.android.material", name = "material", version.ref = "androidMaterial" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "composeMaterial" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity" }
+androidx-compose-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "composeViewModel" }
+androidx-compose-lifecycle = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "composeRuntimeLifecycle" }
+androidx-compose-constraint-layout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "composeContraintLayout" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
 kotlin-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
 kotlin-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinCoroutines" }
+kotlin-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinCoroutines" }
 jacoco = { group = "org.jacoco", name = "org.jacoco.core", version.ref = "jacoco" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
@@ -53,13 +72,17 @@ ktor-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "k
 ktor-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
+ktor-mock = { group = "io.ktor", name = "ktor-client-mock", version.ref = "ktor" }
 sqldelight-gradle = { group = "com.squareup.sqldelight", name = "gradle-plugin", version.ref = "sqldelight" }
 sqldelight-android-driver = { group = "com.squareup.sqldelight", name = "android-driver", version.ref = "sqldelight" }
+sqldelight-sqllite-driver = { group = "com.squareup.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
 sqldelight-coroutines = { group = "com.squareup.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 datastore = { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
 protoc-artifact = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
 protobuf-kotlin = { group = "com.google.protobuf", name = "protobuf-kotlin", version.ref = "protobuf" }
+jsoup = { group = "org.jsoup", name = "jsoup", version.ref = "jsoup" }
+glide = { group = "com.github.skydoves", name = "landscapist-glide", version.ref = "glide" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -71,6 +94,7 @@ ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintPlugin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 sqldelight = { id = "com.squareup.sqldelight", version.ref = "sqldelight" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 [bundles]
 kotlin-coroutines = ["kotlin-coroutines", "kotlin-coroutines-android"]
@@ -80,3 +104,7 @@ koin-test = ["koin-test", "koin-test-junit4"]
 ktor = ["ktor-core", "ktor-okhttp", "ktor-content-negotiation", "ktor-serialization", "ktor-logging"]
 sqldelight = ["sqldelight-android-driver", "sqldelight-coroutines"]
 datastore = ["datastore", "protobuf-kotlin"]
+compose = ["androidx-compose-material3", "androidx-compose-foundation", "androidx-compose-ui",
+    "androidx-compose-activity", "androidx-compose-viewmodel", "androidx-compose-lifecycle",
+    "androidx-compose-constraint-layout", "androidx-compose-material", "glide"
+]
