@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.ksp)
     id(libs.plugins.sqldelight.get().pluginId)
     alias(libs.plugins.protobuf)
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -22,7 +23,17 @@ android {
     buildTypes {
         debug {
             enableUnitTestCoverage = true
+
+            buildConfigField("String", "BASE_MD_API_URL", "\"https://srv2.novaposhta.md\"")
+            buildConfigField("String", "BASE_UA_API_URL", "\"https://novaposhta.ua\"")
         }
+        release {
+            buildConfigField("String", "BASE_MD_API_URL", "\"https://srv2.novaposhta.md\"")
+            buildConfigField("String", "BASE_UA_API_URL", "\"https://novaposhta.ua\"")
+        }
+    }
+    buildFeatures {
+        compose = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -30,12 +41,19 @@ android {
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-P",
+            "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
+        )
     }
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
             unitTests.isReturnDefaultValues = true
         }
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composeKotlinCompiler.get()
     }
 }
 
@@ -49,6 +67,10 @@ dependencies {
 
     implementation(libs.jacoco)
 
+    val composeBom = platform(libs.androidx.compose.bom)
+    implementation(composeBom)
+    implementation(libs.bundles.compose)
+
     implementation(libs.bundles.koin)
     implementation(libs.bundles.koin.android)
     ksp(libs.koin.ksp.compiler)
@@ -57,9 +79,14 @@ dependencies {
     implementation(libs.bundles.sqldelight)
     implementation(libs.bundles.datastore)
 
+    implementation(libs.jsoup)
+
     testImplementation(libs.junit)
     testImplementation(libs.bundles.koin.test)
     testImplementation(libs.mockk)
+    testImplementation(libs.kotlin.coroutines.test)
+    testImplementation(libs.ktor.mock)
+    testImplementation(libs.sqldelight.sqllite.driver)
 }
 
 tasks.create("CI_VERSION_NAME") {

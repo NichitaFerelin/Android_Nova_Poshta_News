@@ -67,9 +67,8 @@ allprojects {
 
 junitJacoco {
     excludes = mutableListOf(
-        "**/*Factory*.*",
-        "**/*Generated*.*",
-        "**/*_di_*.*"
+        "**/di",
+        "**/composeui"
     )
 }
 
