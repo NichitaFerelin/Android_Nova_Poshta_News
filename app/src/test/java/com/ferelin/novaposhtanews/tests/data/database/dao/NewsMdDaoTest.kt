@@ -69,7 +69,7 @@ private object NewsMdMock {
             roSummary = "roSummary1",
             ruContent = "ruContent1",
             roContent = "roContent1",
-            timestamp = 100000,
+            timestamp = 100_000,
             imagesUrls = listOf("test1"),
         ),
         NewsMdDBO(
@@ -80,7 +80,7 @@ private object NewsMdMock {
             roSummary = "roSummary2",
             ruContent = "ruContent2",
             roContent = "roContent2",
-            timestamp = 100001,
+            timestamp = 100_001,
             imagesUrls = listOf("test2"),
         ),
         NewsMdDBO(
@@ -91,7 +91,7 @@ private object NewsMdMock {
             roSummary = "roSummary3",
             ruContent = "ruContent3",
             roContent = "roContent3",
-            timestamp = 100002,
+            timestamp = 100_002,
             imagesUrls = listOf("test3"),
         ),
         NewsMdDBO(
@@ -102,7 +102,7 @@ private object NewsMdMock {
             roSummary = "roSummary4",
             ruContent = "ruContent4",
             roContent = "roContent4",
-            timestamp = 100003,
+            timestamp = 100_003,
             imagesUrls = listOf("test4"),
         ),
     )

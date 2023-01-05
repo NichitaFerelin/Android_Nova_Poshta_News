@@ -85,25 +85,25 @@ private object NewsUaMock {
         NewsUaDBO(
             sourceUrlPath = "sourceurlpath1",
             title = "title1",
-            timestamp = 100000,
+            timestamp = 100_000,
             textBlocks = listOf("a1", "a2"),
         ),
         NewsUaDBO(
             sourceUrlPath = "sourceurlpath2",
             title = "title2",
-            timestamp = 100002,
+            timestamp = 100_002,
             textBlocks = listOf("a3", "a4"),
         ),
         NewsUaDBO(
             sourceUrlPath = "sourceurlpath3",
             title = "title3",
-            timestamp = 100003,
+            timestamp = 100_003,
             textBlocks = listOf("a5", "a6"),
         ),
         NewsUaDBO(
             sourceUrlPath = "sourceurlpath4",
             title = "title4",
-            timestamp = 100004,
+            timestamp = 100_004,
             textBlocks = listOf("a7", "a8"),
         ),
     )
