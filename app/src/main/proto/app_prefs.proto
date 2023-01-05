@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+option java_package = "com.ferelin.novaposhtanews";
+option java_multiple_files = true;
+
+message AppPreferences {
+  bool is_news_auto_load_enabled = 1;
+}
