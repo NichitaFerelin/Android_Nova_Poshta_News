@@ -4,6 +4,8 @@ import com.ferelin.novaposhtanews.data.database.di.databaseModule
 import com.ferelin.novaposhtanews.data.datastore.di.datastoreModule
 import com.ferelin.novaposhtanews.data.remote.di.remoteModule
 import com.ferelin.novaposhtanews.di.dispatchersTestModule
+import com.ferelin.novaposhtanews.features.news.di.newsModule
+import com.ferelin.novaposhtanews.utils.locale.di.localeModule
 import org.junit.Before
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
@@ -25,6 +27,8 @@ internal abstract class KoinBaseTest : AutoCloseKoinTest() {
                     remoteModule,
                     databaseModule,
                     datastoreModule,
+                    localeModule,
+                    newsModule,
                 ) + koinTestModules,
             )
         }

@@ -82,6 +82,7 @@ dependencies {
     implementation(libs.jsoup)
 
     testImplementation(libs.junit)
+    testImplementation(libs.androidx.test.core.ktx)
     testImplementation(libs.bundles.koin.test)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlin.coroutines.test)
