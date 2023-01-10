@@ -5,6 +5,7 @@ androidxCore = "1.9.0"
 androidxBenchmark = "1.1.1"
 androidxJunit = "1.1.4"
 androidMaterial = "1.7.0"
+androidxTestCore = "1.5.0"
 kotlin = "1.7.20"
 kotlinCoroutines = "1.6.4"
 jacoco = "0.8.8"
@@ -42,6 +43,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-benchmark = { group = "androidx.benchmark", name = "benchmark-junit4", version.ref = "androidxBenchmark" }
 androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidxJunit" }
+androidx-test-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "androidxTestCore" }
 android-material = { group = "com.google.android.material", name = "material", version.ref = "androidMaterial" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
