@@ -1,15 +1,9 @@
-import kotlin.collections.List;
-
 CREATE TABLE NewsMdDBO(
     id INTEGER AS Int NOT NULL PRIMARY KEY,
+    urlPath TEXT NOT NULL,
     ruTitle TEXT NOT NULL,
     roTitle TEXT NOT NULL,
-    ruSummary TEXT NOT NULL,
-    roSummary TEXT NOT NULL,
-    ruContent TEXT NOT NULL,
-    roContent TEXT NOT NULL,
-    timestamp INTEGER NOT NULL,
-    imagesUrls TEXT AS List<String> NOT NULL
+    timestamp INTEGER NOT NULL
 );
 
 insert:
@@ -17,6 +11,3 @@ INSERT OR REPLACE INTO NewsMdDBO VALUES ?;
 
 getAll:
 SELECT * FROM NewsMdDBO ORDER BY timestamp DESC;
-
-eraseBy:
-DELETE FROM NewsMdDBO WHERE id =: id;

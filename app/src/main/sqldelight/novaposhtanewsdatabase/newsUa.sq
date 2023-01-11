@@ -1,23 +1,17 @@
-import kotlin.collections.List;
-
 CREATE TABLE NewsUaDBO(
-    sourceUrlPath TEXT NOT NULL PRIMARY KEY,
+    urlPath TEXT NOT NULL PRIMARY KEY,
     title TEXT NOT NULL,
-    timestamp INTEGER NOT NULL,
-    textBlocks TEXT AS List<String> NOT NULL
+    timestamp INTEGER NOT NULL
 );
 
 insert:
 INSERT OR REPLACE INTO NewsUaDBO VALUES ?;
 
-update:
-UPDATE NewsUaDBO SET textBlocks =: textBlocks WHERE sourceUrlPath =: sourceUrlPath;
-
 getAll:
 SELECT * FROM NewsUaDBO ORDER BY timestamp DESC;
 
 getBy:
-SELECT * FROM NewsUaDBO WHERE sourceUrlPath =: sourceUrlPath;
+SELECT * FROM NewsUaDBO WHERE urlPath =: urlPath;
 
 eraseAll:
 DELETE FROM NewsUaDBO;

@@ -12,7 +12,6 @@ import novaposhtanewsdatabase.NewsMdQueries
 interface NewsMdDao {
     val news: Flow<List<NewsMdDBO>>
     suspend fun insertAll(newsMdDBOs: List<NewsMdDBO>)
-    suspend fun eraseAll(newsMdDBOs: List<NewsMdDBO>)
 }
 
 class NewsMdDaoImpl(
@@ -31,14 +30,6 @@ class NewsMdDaoImpl(
         queries.transaction {
             newsMdDBOs.forEach {
                 queries.insert(it)
-            }
-        }
-    }
-
-    override suspend fun eraseAll(newsMdDBOs: List<NewsMdDBO>): Unit = withContext(ioDispatcher) {
-        queries.transaction {
-            newsMdDBOs.forEach {
-                queries.eraseBy(it.id)
             }
         }
     }

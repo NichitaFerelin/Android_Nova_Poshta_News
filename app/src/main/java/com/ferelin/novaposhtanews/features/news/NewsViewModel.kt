@@ -10,7 +10,6 @@ import com.ferelin.novaposhtanews.data.database.dao.NewsMdDao
 import com.ferelin.novaposhtanews.data.database.dao.NewsUaDao
 import com.ferelin.novaposhtanews.data.remote.api.newsmd.NewsMdApi
 import com.ferelin.novaposhtanews.data.remote.api.newsmd.NewsMdApiItem
-import com.ferelin.novaposhtanews.data.remote.api.newsuacontent.NewsUaContentApi
 import com.ferelin.novaposhtanews.data.remote.api.newsuapreview.API_NEWS_UA_FIRST_PAGE
 import com.ferelin.novaposhtanews.data.remote.api.newsuapreview.NewsUaPreviewApi
 import com.ferelin.novaposhtanews.data.remote.api.newsuapreview.NewsUaPreviewApiItem
@@ -31,10 +30,10 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -43,12 +42,12 @@ import novaposhtanewsdatabase.NewsUaDBO
 
 const val NEWS_PIVOT_TO_LOAD_MORE = 15
 const val NEWS_PIVOT_TO_SHOW_FAB = 13
+const val NEWS_FIRST_VISIBLE_INDEX_DEFAULT = 0
 
 class NewsViewModel(
     private val locale: Locale,
     private val appDateUtils: AppDateUtils,
     private val newsMdApi: NewsMdApi,
-    private val newsUaContentApi: NewsUaContentApi,
     private val newsUaPreviewApi: NewsUaPreviewApi,
     private val newsMdDao: NewsMdDao,
     private val newsUaDao: NewsUaDao,
@@ -63,10 +62,13 @@ class NewsViewModel(
     private var nextUaPageToLoad = API_NEWS_UA_FIRST_PAGE
 
     init {
-        initialNewsFetch()
-
         appPreferencesDatastore.data
             .onEach(::onAppPreferencesChanged)
+            .launchIn(viewModelScope)
+
+        userSortPreferencesDatastore.data
+            .take(1)
+            .onEach(::fixIfUselessState)
             .launchIn(viewModelScope)
 
         userSortPreferencesDatastore.data
@@ -93,16 +95,20 @@ class NewsViewModel(
     }
 
     fun onFirstVisibleIndexChanged(index: Int) {
-        if (_uiState.value.shouldAutoLoadMoreNews(index)) {
+        _uiState.update {
+            it.copy(
+                isFabButtonVisible = index > NEWS_PIVOT_TO_SHOW_FAB,
+                firstVisibleNewsIndex = index,
+            )
+        }
+
+        if (_uiState.value.shouldAutoLoadMoreNews()) {
             loadUaNewsNextPage()
         }
-        _uiState.update { it.copy(isFabButtonVisible = index > NEWS_PIVOT_TO_SHOW_FAB) }
     }
 
     fun onRepeatInitialLoadNewsClick() {
-        val uiState = _uiState.value
-        if (uiState.mdNewsShouldBeUpdated()) fetchMdNews()
-        if (uiState.uaNewsShouldBeUpdated()) initUaNewsFirstPageFetch()
+        fetchNewsIfNeed()
     }
 
     fun onLoadMoreUaNewsClick() {
@@ -149,29 +155,11 @@ class NewsViewModel(
         }
     }
 
-    fun onExpandClick(newsUiItem: NewsUiItem) {
-        val alreadyExpanded = _uiState.value.expandedNewsItem
-        if (alreadyExpanded == newsUiItem) {
-            _uiState.update { it.copy(expandedNewsItem = null) }
-        } else {
-            _uiState.update { it.copy(expandedNewsItem = newsUiItem) }
-            newsUiItem.ifShouldLoadContent { loadContentFor(it) }
-        }
-    }
-
-    private fun initialNewsFetch() {
-        viewModelScope.launch {
-            val userPreferences = userSortPreferencesDatastore.data.first()
-            val validUserPreferences = fixIfUselessState(userPreferences)
-
-            if (validUserPreferences.isMdNewsEnabled) fetchMdNews()
-            if (validUserPreferences.isUaNewsEnabled) initUaNewsFirstPageFetch()
-        }
-    }
-
     private fun onAppPreferencesChanged(prefs: AppPreferences) {
-        _uiState.update {
-            it.copy(isAutoLoadEnabled = prefs.isNewsAutoLoadEnabled)
+        _uiState.update { it.copy(isAutoLoadEnabled = prefs.isNewsAutoLoadEnabled) }
+
+        if (_uiState.value.shouldAutoLoadMoreNews()) {
+            loadUaNewsNextPage()
         }
     }
 
@@ -184,6 +172,15 @@ class NewsViewModel(
                 isUaNewsEnabled = prefs.isUaNewsEnabled,
             )
         }
+
+        fetchNewsIfNeed()
+    }
+
+    private fun fetchNewsIfNeed() {
+        with(_uiState.value) {
+            if (mdNewsShouldBeUpdated()) fetchMdNews()
+            if (uaNewsShouldBeUpdated()) initUaNewsFirstPageFetch()
+        }
     }
 
     private fun fetchMdNews() {
@@ -192,8 +189,7 @@ class NewsViewModel(
         viewModelScope.launch {
             val fetchedNewsResult = newsMdApi.fetchNews()
             if (fetchedNewsResult.isSuccess) {
-                val fetchedNews = fetchedNewsResult.getOrDefault(emptyList())
-                onMdNewsFetchComplete(fetchedNews)
+                onMdNewsFetchComplete(fetchedNewsResult.getOrThrow())
             } else {
                 _uiState.update { it.copy(firstFetchNewsMdLce = NewsLceState.Error()) }
             }
@@ -225,7 +221,7 @@ class NewsViewModel(
     }
 
     private suspend fun fetchUaNewsFirstPageIfNeed(newsUaPreviewApiItem: NewsUaPreviewApiItem) {
-        val isAnyUpdates = newsUaDao.getBy(newsUaPreviewApiItem.sourceUrlPath) == null
+        val isAnyUpdates = newsUaDao.getBy(newsUaPreviewApiItem.urlPath) == null
         if (isAnyUpdates) {
             fetchUaNewsFirstPage()
         } else {
@@ -237,12 +233,21 @@ class NewsViewModel(
         val fetchedNewsResult = newsUaPreviewApi.fetchNews(API_NEWS_UA_FIRST_PAGE)
 
         if (fetchedNewsResult.isSuccess) {
-            val fetchedNews = fetchedNewsResult.getOrThrow()
-            onUaNewsFirstFetchComplete(fetchedNews)
-            nextUaPageToLoad++
+            onUaNewsFirstFetchSuccess(fetchedNewsResult.getOrThrow())
         } else {
             _uiState.update { it.copy(firstFetchNewsUaLce = NewsLceState.Error()) }
         }
+    }
+
+    private suspend fun onUaNewsFirstFetchSuccess(fetchedNewsItems: List<NewsUaPreviewApiItem>) {
+        if (fetchedNewsItems.isEmpty()) {
+            _uiState.update { it.copy(firstFetchNewsUaLce = NewsLceState.Error()) }
+            return
+        }
+
+        nextUaPageToLoad++
+        newsUaDao.insertAll(fetchedNewsItems.map { it.asDbo(appDateUtils) })
+        _uiState.update { it.copy(firstFetchNewsUaLce = NewsLceState.Content) }
     }
 
     private fun loadUaNewsNextPage() {
@@ -251,54 +256,30 @@ class NewsViewModel(
             val fetchedNewsResult = newsUaPreviewApi.fetchNews(nextUaPageToLoad)
 
             if (fetchedNewsResult.isSuccess) {
-                val fetchedNews = fetchedNewsResult.getOrThrow()
-                newsUaDao.insertAll(fetchedNews.map { it.asDbo(appDateUtils) })
-                _uiState.update { it.copy(newsUaLce = NewsLceState.Content) }
-                nextUaPageToLoad++
+                onLoadUaNewsPageSuccess(fetchedNewsResult.getOrThrow())
             } else {
                 onLoadUaNewsPageException(fetchedNewsResult)
             }
         }
     }
 
+    private suspend fun onLoadUaNewsPageSuccess(fetchedNews: List<NewsUaPreviewApiItem>) {
+        nextUaPageToLoad++
+        newsUaDao.insertAll(fetchedNews.map { it.asDbo(appDateUtils) })
+        _uiState.update { it.copy(newsUaLce = NewsLceState.Content) }
+    }
+
     private fun onLoadUaNewsPageException(fetchedNewsResult: Result<List<NewsUaPreviewApiItem>>) {
-        when (fetchedNewsResult.exceptionOrNull()) {
-            is NewsUaPreviewEndOfPageException -> {
-                _uiState.update {
-                    it.copy(
-                        newsUaLce = NewsLceState.Content,
-                        newsUaEndOfPageReached = true,
-                    )
-                }
+        if (fetchedNewsResult.exceptionOrNull() is NewsUaPreviewEndOfPageException) {
+            _uiState.update {
+                it.copy(
+                    newsUaLce = NewsLceState.Content,
+                    newsUaEndOfPageReached = true,
+                )
             }
-            else -> {
-                _uiState.update { it.copy(newsUaLce = NewsLceState.Error()) }
-            }
+        } else {
+            _uiState.update { it.copy(newsUaLce = NewsLceState.Error()) }
         }
-    }
-
-    private fun loadContentFor(newsItem: NewsUiItem.Ua) {
-        viewModelScope.launch {
-            _uiState.update { it.copy(expandedNewsItemContentLce = NewsLceState.Loading) }
-
-            val fetchResult = newsUaContentApi.fetchNewsItemContent(newsItem.sourceUrlPath)
-            if (fetchResult.isSuccess) {
-                newsUaDao.updateBy(newsItem.sourceUrlPath, fetchResult.getOrThrow().textBlocks)
-                _uiState.update { it.copy(expandedNewsItemContentLce = NewsLceState.Content) }
-            } else {
-                _uiState.update { it.copy(expandedNewsItemContentLce = NewsLceState.Error()) }
-            }
-        }
-    }
-
-    private suspend fun onUaNewsFirstFetchComplete(fetchedNewsItems: List<NewsUaPreviewApiItem>) {
-        if (fetchedNewsItems.isEmpty()) {
-            _uiState.update { it.copy(firstFetchNewsUaLce = NewsLceState.Error()) }
-            return
-        }
-
-        newsUaDao.insertAll(fetchedNewsItems.map { it.asDbo(appDateUtils) })
-        _uiState.update { it.copy(firstFetchNewsUaLce = NewsLceState.Content) }
     }
 
     private fun updateUiStateWithNews(news: List<NewsUiItem>) {
@@ -323,18 +304,14 @@ class NewsViewModel(
         return (newsMdUi + newsUaUi).sortedConcatenatedNews(userSortPreferences)
     }
 
-    private suspend fun fixIfUselessState(
-        userSortPreferences: UserSortPreferences,
-    ): UserSortPreferences {
-        return if (userSortPreferences.isUselessState()) {
+    private suspend fun fixIfUselessState(userSortPreferences: UserSortPreferences) {
+        if (userSortPreferences.isUselessState()) {
             userSortPreferencesDatastore.updateData {
                 it.copy {
                     isMdNewsEnabled = true
                     isUaNewsEnabled = true
                 }
             }
-        } else {
-            userSortPreferences
         }
     }
 }

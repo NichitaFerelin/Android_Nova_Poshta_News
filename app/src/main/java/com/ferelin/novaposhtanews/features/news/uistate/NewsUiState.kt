@@ -1,14 +1,13 @@
 package com.ferelin.novaposhtanews.features.news.uistate
 
 import androidx.compose.runtime.Immutable
+import com.ferelin.novaposhtanews.features.news.NEWS_FIRST_VISIBLE_INDEX_DEFAULT
 import com.ferelin.novaposhtanews.features.news.NEWS_PIVOT_TO_LOAD_MORE
-
 
 @Immutable
 data class NewsUiState(
     val news: List<NewsUiItem> = emptyList(),
-    val expandedNewsItem: NewsUiItem? = null,
-    val expandedNewsItemContentLce: NewsLceState = NewsLceState.None,
+    val firstVisibleNewsIndex: Int = NEWS_FIRST_VISIBLE_INDEX_DEFAULT,
     val firstFetchNewsUaLce: NewsLceState = NewsLceState.None,
     val firstFetchNewsMdLce: NewsLceState = NewsLceState.None,
     val newsUaLce: NewsLceState = NewsLceState.None,
@@ -22,11 +21,11 @@ data class NewsUiState(
     val isAscendingTimestampOrderEnabled: Boolean = false,
 ) {
     fun mdNewsShouldBeUpdated(): Boolean =
-        isMdNewsEnabled && firstFetchNewsMdLce is NewsLceState.Error
+        isMdNewsEnabled && (firstFetchNewsMdLce is NewsLceState.Error || firstFetchNewsMdLce is NewsLceState.None)
 
     fun uaNewsShouldBeUpdated(): Boolean =
-        isUaNewsEnabled && firstFetchNewsUaLce is NewsLceState.Error
+        isUaNewsEnabled && (firstFetchNewsUaLce is NewsLceState.Error || firstFetchNewsUaLce is NewsLceState.None)
 
-    fun shouldAutoLoadMoreNews(firstVisibleItemIndex: Int) : Boolean =
-        isUaNewsEnabled && isAutoLoadEnabled && news.lastIndex - firstVisibleItemIndex < NEWS_PIVOT_TO_LOAD_MORE
+    fun shouldAutoLoadMoreNews(): Boolean =
+        isUaNewsEnabled && isAutoLoadEnabled && news.lastIndex - firstVisibleNewsIndex < NEWS_PIVOT_TO_LOAD_MORE
 }

@@ -39,16 +39,6 @@ internal class NewsMdDaoTest : KoinBaseTest() {
     }
 
     @Test
-    fun `news md dao should be erased correct`() = runTest {
-        newsMdDao.insertAll(NewsMdMock.newsMdDboItems)
-        newsMdDao.eraseAll(listOf(NewsMdMock.newsMdDboItems.first()))
-
-        val expected = NewsMdMock.newsMdDboItems.subList(1, NewsMdMock.newsMdDboItems.size).reversed()
-        val actual = newsMdDao.news.first()
-        assertTrue { expected == actual }
-    }
-
-    @Test
     fun `news md item should be replaced in case of collision`() = runTest {
         val expected = listOf(NewsMdMock.newsMdDboItems.first())
         newsMdDao.insertAll(expected)
@@ -63,47 +53,31 @@ private object NewsMdMock {
     val newsMdDboItems = listOf(
         NewsMdDBO(
             id = 1,
+            urlPath = "urlPath2",
             ruTitle = "ruTitle1",
             roTitle = "roTitle1",
-            ruSummary = "ruSummary1",
-            roSummary = "roSummary1",
-            ruContent = "ruContent1",
-            roContent = "roContent1",
             timestamp = 100_000,
-            imagesUrls = listOf("test1"),
         ),
         NewsMdDBO(
             id = 2,
+            urlPath = "urlPath2",
             ruTitle = "ruTitle2",
             roTitle = "roTitle2",
-            ruSummary = "ruSummary2",
-            roSummary = "roSummary2",
-            ruContent = "ruContent2",
-            roContent = "roContent2",
             timestamp = 100_001,
-            imagesUrls = listOf("test2"),
         ),
         NewsMdDBO(
             id = 3,
+            urlPath = "urlPath3",
             ruTitle = "ruTitle3",
             roTitle = "roTitle3",
-            ruSummary = "ruSummary3",
-            roSummary = "roSummary3",
-            ruContent = "ruContent3",
-            roContent = "roContent3",
             timestamp = 100_002,
-            imagesUrls = listOf("test3"),
         ),
         NewsMdDBO(
             id = 4,
+            urlPath = "urlPath4",
             ruTitle = "ruTitle4",
             roTitle = "roTitle4",
-            ruSummary = "ruSummary4",
-            roSummary = "roSummary4",
-            ruContent = "ruContent4",
-            roContent = "roContent4",
             timestamp = 100_003,
-            imagesUrls = listOf("test4"),
         ),
     )
 }

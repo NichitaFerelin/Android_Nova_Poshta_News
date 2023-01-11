@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
 const val API_NEWS_MD_ARTICLES_PATH = "/articles"
+const val API_NEWS_MD_ARTICLE_PATH = "/article"
 const val API_NEWS_MD_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"
 
 interface NewsMdApi {

@@ -14,7 +14,6 @@ val newsModule = module {
             locale = get(),
             appDateUtils = get(),
             newsMdApi = get(),
-            newsUaContentApi = get(),
             newsUaPreviewApi = get(),
             newsMdDao = get(),
             newsUaDao = get(),
