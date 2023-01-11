@@ -11,7 +11,7 @@ private const val NEWS_UA_TITLE_DATE_SPLITTER = ' '
 fun Element.parseNewsUaPreviewApiItem(): NewsUaPreviewApiItem {
     val title = select(HTML_NEWS_UA_TITLE_TAG).text()
     return NewsUaPreviewApiItem(
-        sourceUrlPath = select(HTML_NEWS_UA_ITEM_URL_TAG).attr(HTML_NEWS_UA_ITEM_URL_ATTR_TAG),
+        urlPath = select(HTML_NEWS_UA_ITEM_URL_TAG).attr(HTML_NEWS_UA_ITEM_URL_ATTR_TAG),
         title = title.substringBeforeLast(NEWS_UA_TITLE_DATE_SPLITTER),
         date = title.substringAfterLast(NEWS_UA_TITLE_DATE_SPLITTER),
     )

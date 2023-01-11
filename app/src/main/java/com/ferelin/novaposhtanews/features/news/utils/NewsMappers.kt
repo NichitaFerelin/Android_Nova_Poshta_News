@@ -9,45 +9,37 @@ import novaposhtanewsdatabase.NewsUaDBO
 
 fun NewsUaDBO.asUi(appDateUtils: AppDateUtils): NewsUiItem {
     return NewsUiItem.Ua(
-        sourceUrlPath = sourceUrlPath,
+        urlPath = urlPath,
         title = title,
         createdAtTimestamp = timestamp,
         createdAt = appDateUtils.timestampToDateStr(timestamp),
-        textBlocks = textBlocks,
     )
 }
 
 fun NewsUaPreviewApiItem.asDbo(appDateUtils: AppDateUtils): NewsUaDBO {
     return NewsUaDBO(
-        sourceUrlPath = sourceUrlPath,
+        urlPath = urlPath,
         title = title,
         timestamp = appDateUtils.newsUaDateToTimestamp(date),
-        textBlocks = emptyList(),
     )
 }
 
 fun NewsMdDBO.asUi(appDateUtils: AppDateUtils, isSystemLanguageRo: Boolean): NewsUiItem {
     return NewsUiItem.Md(
         id = id,
+        urlPath = urlPath,
         title = if (isSystemLanguageRo) roTitle else ruTitle,
-        summary = if (isSystemLanguageRo) roSummary else ruSummary,
-        content = if (isSystemLanguageRo) roContent else ruContent,
         createdAtTimestamp = timestamp,
         createdAt = appDateUtils.timestampToDateStr(timestamp),
-        imagesUrls = imagesUrls,
     )
 }
 
 fun NewsMdApiItem.asDbo(appDateUtils: AppDateUtils): NewsMdDBO {
     return NewsMdDBO(
         id = id,
+        urlPath = urlPath,
         ruTitle = title.ru,
         roTitle = title.ro,
-        ruSummary = summary.ru,
-        roSummary = summary.ro,
-        ruContent = content.ru,
-        roContent = content.ro,
         timestamp = appDateUtils.newsMdDateToTimestamp(createdAt),
-        imagesUrls = media.map { it.collectionItemUrl },
     )
 }

@@ -13,7 +13,6 @@ interface NewsUaDao {
     val news: Flow<List<NewsUaDBO>>
     suspend fun insertAll(newsUaDBOs: List<NewsUaDBO>)
     suspend fun getBy(sourceUrlPath: String): NewsUaDBO?
-    suspend fun updateBy(sourceUrlPath: String, textBlocks: List<String>)
     suspend fun eraseAll()
 }
 
@@ -39,13 +38,6 @@ class NewsUaDaoImpl(
 
     override suspend fun getBy(sourceUrlPath: String): NewsUaDBO? = withContext(ioDispatcher) {
         queries.getBy(sourceUrlPath).executeAsOneOrNull()
-    }
-
-    override suspend fun updateBy(
-        sourceUrlPath: String,
-        textBlocks: List<String>,
-    ) = withContext(ioDispatcher) {
-        queries.update(textBlocks, sourceUrlPath)
     }
 
     override suspend fun eraseAll(): Unit = withContext(ioDispatcher) {

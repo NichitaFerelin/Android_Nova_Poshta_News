@@ -41,7 +41,7 @@ internal class NewsUaDaoTest : KoinBaseTest() {
 
     @Test
     fun `news ua item should be replaced in case collision`() = runTest {
-        val expected = listOf(NewsUaDBO(sourceUrlPath = "url", "", 0, emptyList()))
+        val expected = listOf(NewsUaDBO(urlPath = "url", "", 0))
         newsUaDao.insertAll(expected)
         newsUaDao.insertAll(expected)
 
@@ -53,20 +53,7 @@ internal class NewsUaDaoTest : KoinBaseTest() {
     fun `get by source url path should return right item`() = runTest {
         newsUaDao.insertAll(NewsUaMock.newsMdDboItems)
         val expected = NewsUaMock.newsMdDboItems.first()
-        val actual = newsUaDao.getBy(expected.sourceUrlPath)
-        assertTrue { actual == expected }
-    }
-
-    @Test
-    fun `update by source url path`() = runTest {
-        newsUaDao.insertAll(NewsUaMock.newsMdDboItems)
-
-        val expected = NewsUaMock.newsMdDboItems.first()
-            .copy(textBlocks = listOf("a5", "a6", "a7"))
-
-        newsUaDao.updateBy(expected.sourceUrlPath, expected.textBlocks)
-
-        val actual = newsUaDao.getBy(expected.sourceUrlPath)
+        val actual = newsUaDao.getBy(expected.urlPath)
         assertTrue { actual == expected }
     }
 
@@ -83,28 +70,24 @@ internal class NewsUaDaoTest : KoinBaseTest() {
 private object NewsUaMock {
     val newsMdDboItems = listOf(
         NewsUaDBO(
-            sourceUrlPath = "sourceurlpath1",
+            urlPath = "urlPath1",
             title = "title1",
             timestamp = 100_000,
-            textBlocks = listOf("a1", "a2"),
         ),
         NewsUaDBO(
-            sourceUrlPath = "sourceurlpath2",
+            urlPath = "urlPath2",
             title = "title2",
             timestamp = 100_002,
-            textBlocks = listOf("a3", "a4"),
         ),
         NewsUaDBO(
-            sourceUrlPath = "sourceurlpath3",
+            urlPath = "urlPath3",
             title = "title3",
             timestamp = 100_003,
-            textBlocks = listOf("a5", "a6"),
         ),
         NewsUaDBO(
-            sourceUrlPath = "sourceurlpath4",
+            urlPath = "urlPath4",
             title = "title4",
             timestamp = 100_004,
-            textBlocks = listOf("a7", "a8"),
         ),
     )
 }

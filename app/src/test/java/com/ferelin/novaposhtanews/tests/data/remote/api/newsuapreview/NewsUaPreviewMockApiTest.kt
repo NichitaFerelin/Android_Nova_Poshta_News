@@ -84,7 +84,7 @@ internal class NewsUaPreviewMockApiTest : KoinBaseTest() {
         assertTrue { result.isSuccess }
         assertTrue { resultItem.title == expectedTitle }
         assertTrue { resultItem.date == expectedDate }
-        assertTrue { resultItem.sourceUrlPath == expectedPath }
+        assertTrue { resultItem.urlPath == expectedPath }
     }
 
     @Test
@@ -130,7 +130,7 @@ internal class NewsUaPreviewMockApiTest : KoinBaseTest() {
         assertTrue { result.isSuccess }
         assertTrue { resultItem.title == expectedTitle }
         assertTrue { resultItem.date == expectedDate }
-        assertTrue { resultItem.sourceUrlPath == expectedPath }
+        assertTrue { resultItem.urlPath == expectedPath }
     }
 
     @Test

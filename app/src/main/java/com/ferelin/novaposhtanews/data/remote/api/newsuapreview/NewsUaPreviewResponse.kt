@@ -1,7 +1,7 @@
 package com.ferelin.novaposhtanews.data.remote.api.newsuapreview
 
 data class NewsUaPreviewApiItem(
-    val sourceUrlPath: String,
+    val urlPath: String,
     val title: String,
     val date: String,
 )

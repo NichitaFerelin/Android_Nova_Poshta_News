@@ -2,8 +2,6 @@ package com.ferelin.novaposhtanews.data.remote.di
 
 import com.ferelin.novaposhtanews.data.remote.api.newsmd.NewsMdApi
 import com.ferelin.novaposhtanews.data.remote.api.newsmd.NewsMdApiImpl
-import com.ferelin.novaposhtanews.data.remote.api.newsuacontent.NewsUaContentApi
-import com.ferelin.novaposhtanews.data.remote.api.newsuacontent.NewsUaContentApiImpl
 import com.ferelin.novaposhtanews.data.remote.api.newsuapreview.NewsUaPreviewApi
 import com.ferelin.novaposhtanews.data.remote.api.newsuapreview.NewsUaPreviewApiImpl
 import com.ferelin.novaposhtanews.utils.dispatchers.NAMED_DISPATCHER_DEFAULT
@@ -43,13 +41,6 @@ val remoteModule = module {
             get(qualifier = named(NAMED_DISPATCHER_IO)),
         )
     } bind NewsMdApi::class
-
-    factory {
-        NewsUaContentApiImpl(
-            get(qualifier = named(NAMED_DISPATCHER_DEFAULT)),
-            get(qualifier = named(NAMED_DISPATCHER_IO)),
-        )
-    } bind NewsUaContentApi::class
 
     factory {
         NewsUaPreviewApiImpl(
