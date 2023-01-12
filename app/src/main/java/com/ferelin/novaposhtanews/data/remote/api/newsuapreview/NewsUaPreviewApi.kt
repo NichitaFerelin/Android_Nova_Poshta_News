@@ -9,6 +9,7 @@ import org.jsoup.Jsoup
 const val API_NEWS_UA_ARTICLES_PATH = "/news/rubric/2/page/"
 const val API_NEWS_UA_FIRST_PAGE = 1
 const val API_NEWS_UA_DATE_PATTERN = "dd.MM.yyyy"
+const val API_NEWS_UA_PER_PAGE = 10
 private const val HTML_NEWS_UA_ITEM_TAG = "m_news_item"
 
 interface NewsUaPreviewApi {

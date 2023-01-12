@@ -24,10 +24,12 @@ android {
         debug {
             enableUnitTestCoverage = true
 
+            buildConfigField("String", "BASE_MD_WEBSITE_URL", "\"https://novaposhta.md/\"")
             buildConfigField("String", "BASE_MD_API_URL", "\"https://srv2.novaposhta.md\"")
             buildConfigField("String", "BASE_UA_API_URL", "\"https://novaposhta.ua\"")
         }
         release {
+            buildConfigField("String", "BASE_MD_WEBSITE_URL", "\"https://novaposhta.md/\"")
             buildConfigField("String", "BASE_MD_API_URL", "\"https://srv2.novaposhta.md\"")
             buildConfigField("String", "BASE_UA_API_URL", "\"https://novaposhta.ua\"")
         }
