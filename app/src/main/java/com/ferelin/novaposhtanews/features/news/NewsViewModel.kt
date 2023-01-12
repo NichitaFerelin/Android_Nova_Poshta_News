@@ -27,6 +27,8 @@ import com.ferelin.novaposhtanews.utils.IntTransformUtils
 import com.ferelin.novaposhtanews.utils.locale.AppDateUtils
 import com.ferelin.novaposhtanews.utils.locale.isRomanian
 import com.ferelin.novaposhtanews.utils.takeIfOrEmpty
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import java.util.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -205,6 +207,7 @@ class NewsViewModel(
     private suspend fun onMdNewsFetchComplete(fetchedNews: List<NewsMdApiItem>) {
         if (fetchedNews.isEmpty()) {
             _uiState.update { it.copy(firstFetchNewsMdLce = NewsLceState.Error()) }
+            Firebase.crashlytics.recordException(Exception("Empty list of MD news on fetch"))
             return
         }
 
@@ -248,6 +251,7 @@ class NewsViewModel(
     private suspend fun onUaNewsFirstFetchSuccess(fetchedNewsItems: List<NewsUaPreviewApiItem>) {
         if (fetchedNewsItems.isEmpty()) {
             _uiState.update { it.copy(firstFetchNewsUaLce = NewsLceState.Error()) }
+            Firebase.crashlytics.recordException(Exception("Empty list of UA news on first fetch"))
             return
         }
 
