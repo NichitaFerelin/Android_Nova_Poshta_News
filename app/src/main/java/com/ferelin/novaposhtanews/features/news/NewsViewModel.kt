@@ -11,6 +11,7 @@ import com.ferelin.novaposhtanews.data.database.dao.NewsUaDao
 import com.ferelin.novaposhtanews.data.remote.api.newsmd.NewsMdApi
 import com.ferelin.novaposhtanews.data.remote.api.newsmd.NewsMdApiItem
 import com.ferelin.novaposhtanews.data.remote.api.newsuapreview.API_NEWS_UA_FIRST_PAGE
+import com.ferelin.novaposhtanews.data.remote.api.newsuapreview.API_NEWS_UA_PER_PAGE
 import com.ferelin.novaposhtanews.data.remote.api.newsuapreview.NewsUaPreviewApi
 import com.ferelin.novaposhtanews.data.remote.api.newsuapreview.NewsUaPreviewApiItem
 import com.ferelin.novaposhtanews.data.remote.api.newsuapreview.NewsUaPreviewEndOfPageException
@@ -22,6 +23,7 @@ import com.ferelin.novaposhtanews.features.news.utils.asUi
 import com.ferelin.novaposhtanews.features.news.utils.isUselessState
 import com.ferelin.novaposhtanews.features.news.utils.sortedByUserSortPreferences
 import com.ferelin.novaposhtanews.features.news.utils.sortedConcatenatedNews
+import com.ferelin.novaposhtanews.utils.IntTransformUtils
 import com.ferelin.novaposhtanews.utils.locale.AppDateUtils
 import com.ferelin.novaposhtanews.utils.locale.isRomanian
 import com.ferelin.novaposhtanews.utils.takeIfOrEmpty
@@ -73,6 +75,10 @@ class NewsViewModel(
 
         userSortPreferencesDatastore.data
             .onEach(::onUserSortPreferencesChanged)
+            .launchIn(viewModelScope)
+
+        newsUaDao.news
+            .onEach(::onNewsUaChanged)
             .launchIn(viewModelScope)
 
         combine(
@@ -245,7 +251,6 @@ class NewsViewModel(
             return
         }
 
-        nextUaPageToLoad++
         newsUaDao.insertAll(fetchedNewsItems.map { it.asDbo(appDateUtils) })
         _uiState.update { it.copy(firstFetchNewsUaLce = NewsLceState.Content) }
     }
@@ -264,7 +269,6 @@ class NewsViewModel(
     }
 
     private suspend fun onLoadUaNewsPageSuccess(fetchedNews: List<NewsUaPreviewApiItem>) {
-        nextUaPageToLoad++
         newsUaDao.insertAll(fetchedNews.map { it.asDbo(appDateUtils) })
         _uiState.update { it.copy(newsUaLce = NewsLceState.Content) }
     }
@@ -284,6 +288,10 @@ class NewsViewModel(
 
     private fun updateUiStateWithNews(news: List<NewsUiItem>) {
         _uiState.update { it.copy(news = news) }
+    }
+
+    private fun onNewsUaChanged(news: List<NewsUaDBO>) {
+        nextUaPageToLoad = IntTransformUtils.roundToBiggestTen(news.size) / API_NEWS_UA_PER_PAGE + 1
     }
 
     private fun concatenateNews(
