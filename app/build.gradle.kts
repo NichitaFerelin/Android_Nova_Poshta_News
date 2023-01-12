@@ -5,6 +5,8 @@ plugins {
     id(libs.plugins.sqldelight.get().pluginId)
     alias(libs.plugins.protobuf)
     alias(libs.plugins.serialization)
+    id(libs.plugins.google.services.get().pluginId)
+    id(libs.plugins.firebase.crashlytics.get().pluginId)
 }
 
 android {
@@ -82,6 +84,10 @@ dependencies {
     implementation(libs.bundles.datastore)
 
     implementation(libs.jsoup)
+
+    val firebaseBom = platform(libs.firebase.bom)
+    implementation(firebaseBom)
+    implementation(libs.bundles.firebase)
 
     testImplementation(libs.junit)
     testImplementation(libs.androidx.test.core.ktx)
