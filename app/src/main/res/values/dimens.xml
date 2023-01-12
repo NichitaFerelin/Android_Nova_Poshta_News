@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_horizontal_base">12dp</dimen>
+    <dimen name="padding_vertical_base_items">8dp</dimen>
+    <dimen name="padding_horizontal_base_items">6dp</dimen>
+
+    <dimen name="elevation_base">2dp</dimen>
+    <dimen name="elevation_pressed">4dp</dimen>
+    <dimen name="elevation_disabled">0dp</dimen>
+    <dimen name="elevation_top_bar">4dp</dimen>
+
+    <dimen name="fab_icon_size">24dp</dimen>
+
+    <dimen name="button_min_height">60dp</dimen>
+
+    <dimen name="circular_progress_bar_size">20dp</dimen>
+    <dimen name="circular_progress_bar_stroke_width">2dp</dimen>
+
+    <dimen name="country_icon_default">28dp</dimen>
+
+    <dimen name="news_list_padding_top">12dp</dimen>
+    <dimen name="news_list_padding_start">16dp</dimen>
+    <dimen name="news_list_padding_end">16dp</dimen>
+    <dimen name="news_list_padding_bottom">60dp</dimen>
+    <dimen name="news_list_items_padding">10dp</dimen>
+
+    <dimen name="news_item_image_padding_vertical">12dp</dimen>
+    <dimen name="news_item_image_size">40dp</dimen>
+
+    <dimen name="padding_horizontal_settings_content">20dp</dimen>
+</resources>
