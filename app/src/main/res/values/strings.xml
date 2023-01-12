@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">Nova Poshta News</string>
+
+    <string name="title_news_loaded">Новости обновлены</string>
+    <string name="title_news_ua">Украинские новости</string>
+    <string name="title_news_md">Молдавские новости</string>
+    <string name="title_auto_load">Автоматическая загрузка</string>
+
+    <string name="hint_repeat_load">Повторить</string>
+    <string name="hint_news_loaded">Все возможные новости загружены</string>
+    <string name="hint_load_more">Загрузить больше новостей</string>
+    <string name="hint_news_ua_option">Включить / Выключить отображение Украинских новостей</string>
+    <string name="hint_news_md_option">Включить / Выключить отображение Молдавских новостей</string>
+    <string name="hint_auto_load_option">Автоматическая загрузка новостей по достижению конца страницы</string>
+    <string name="hint_sort_by_date">Сортировка по дате</string>
+    <string name="hint_sort_by_category">Сортировка по категории</string>
+    <string name="hint_old_first">Сначала старые новости</string>
+    <string name="hint_new_first">Сначала новые новости</string>
+
+    <string name="error_news_load">Ошибка обновления новостей</string>
+    <string name="error_news_page_load">Ошибка загрузки страницы новостей</string>
+
+    <string name="description_country_icon">country image</string>
+    <string name="description_scroll_to_top">scroll to top</string>
+    <string name="description_sort_type">sort by type</string>
+    <string name="description_order_type">sort by order</string>
+    <string name="description_auto_load">auto load news</string>
+    <string name="description_nova_poshta_logo">nova poshta logo</string>
+    <string name="description_settings">app settings</string>
 </resources>
