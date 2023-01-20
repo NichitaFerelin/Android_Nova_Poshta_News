@@ -4,8 +4,6 @@ on:
     branches:
       - master
 
-    tags:
-      - 'v*'
 jobs:
   build:
     name: Builg & Sign release APK
