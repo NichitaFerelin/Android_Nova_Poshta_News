@@ -1,0 +1,13 @@
+CREATE TABLE NewsMdDBO(
+    id INTEGER AS Int NOT NULL PRIMARY KEY,
+    urlPath TEXT NOT NULL,
+    ruTitle TEXT NOT NULL,
+    roTitle TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+);
+
+insert:
+INSERT OR REPLACE INTO NewsMdDBO VALUES ?;
+
+getAll:
+SELECT * FROM NewsMdDBO ORDER BY timestamp DESC;
