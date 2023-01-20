@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "701336288457",
+    "project_id": "nova-poshta-news",
+    "storage_bucket": "nova-poshta-news.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701336288457:android:9e8fe41762a29e5715a118",
+        "android_client_info": {
+          "package_name": "com.ferelin.novaposhtanews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "701336288457-2t268lqt10srq46ftvp4dg6avho0c7lp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ferelin.novaposhtanews",
+            "certificate_hash": "b06ddf680bc2d4a63535bcda3b3982eb56199199"
+          }
+        },
+        {
+          "client_id": "701336288457-9g8fuckhbqv41csiv5iivbvcai15rgkq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJcHQx-Vo4HXrYoVOQsO7lHTGk2H-0QQk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "701336288457-9g8fuckhbqv41csiv5iivbvcai15rgkq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
