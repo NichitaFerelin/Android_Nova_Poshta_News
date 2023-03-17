@@ -8,7 +8,7 @@ import org.koin.dsl.module
 val remoteDesktopModule = module {
     single {
         Java.create {
-            proxy = Proxy(Proxy.Type.HTTP, InetSocketAddress("10.130.10.254", 3128))
+            /**/
         }
     }
 }
