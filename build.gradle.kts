@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
-    alias(libs.plugins.jacoco) apply true
     alias(libs.plugins.benchmark) apply false
     alias(libs.plugins.ksp)
 }
@@ -65,18 +64,4 @@ allprojects {
             html.required.set(true)
         }
     }
-}
-
-junitJacoco {
-    excludes = mutableListOf(
-        "**/*Generated*.*",
-        "**/di",
-        "**/composeui",
-        "**/**/*serializer*.*",
-        "**/**/*Companion*.*",
-    )
-}
-
-jacoco {
-    toolVersion = rootProject.libs.plugins.jacoco.get().version.toString()
 }

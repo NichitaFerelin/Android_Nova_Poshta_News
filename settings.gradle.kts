@@ -3,6 +3,7 @@ pluginManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
 dependencyResolutionManagement {
@@ -13,5 +14,6 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Nova Poshta News"
-include(":app")
-include(":benchmark")
+include(":androidApp")
+include(":desktopapp")
+include(":shared")
