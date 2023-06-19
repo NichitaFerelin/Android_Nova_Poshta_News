@@ -3,12 +3,6 @@
 
 ## About
 The main purpose of Nova Poshta News application is to display news of News Post International company. Available country news: Moldova, Ukraine.
-- **(+)** Android
-- **(-)** iOS
-- **(-)** Desktop
-- **(-)** Web
-
-**Google Play: TODO**
 
 ## Stack
 - **Material3**
